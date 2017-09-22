@@ -1,0 +1,19 @@
+<div class="tag-detail">
+  <h3>Tag: {{ tagName }}</h3>
+  <ul class="list-group favorites-list">
+    <li class="list-group-item" *ngFor="let fav of favorites">
+      <a href="{{ fav.url }}" class="link" target="_blank">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+        {{ fav.title }}
+      </a>
+      <p class="tags">
+        Tags: {{ fav.tags }} 
+        <span class="pull-right">
+          <a href="javascript:void(0);" class="link-marked" *ngIf="fav.read"><span class="glyphicon glyphicon-check"></span> Already Marked</a>
+          <a href="javascript:void(0);" class="link-mark" *ngIf="!fav.read" (click)="markAsRead(favorite)"><span class="glyphicon glyphicon-eye-open"></span> Mark as Read</a> 
+          <a class="link-delete" href="javascript:void(0);" (click)="deleteFavorite(fav.id)"><span class="glyphicon glyphicon-warning-sign"></span> Delete Favorite</a> 
+        </span>
+      </p> 
+    </li>
+  </ul>
+</div>

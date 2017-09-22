@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="page-header">
+    <h1>{{title}}</h1>
+  </div>
+  <nav>
+    <ul class="nav nav-pills">
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/">Home</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="/favorites">Favorites</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="/collections">Collections</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="/tags">Tags</a></li>
+    </ul>
+  </nav>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,141 @@
+{
+  "favorites": [
+    {
+      "id": 1,
+      "title": "Six Steps for Approaching the Next JavaScript",
+      "url": "http://developer.telerik.com/featured/six-steps-for-approaching-the-next-javascript/",
+      "tags": "ES6",
+      "read": false
+    },
+    {
+      "id": 2,
+      "title": "An Introduction To JavaScript ES6 Classes",
+      "url": "https://developer.ibm.com/node/2015/08/12/an-introduction-to-javascript-es6-classes/",
+      "tags": "ES6",
+      "read": false
+    },
+    {
+      "id": 3,
+      "title": "Node Hero - Getting Started With Node.js Tutorial",
+      "url": "https://blog.risingstack.com/node-hero-tutorial-getting-started-with-node-js/",
+      "tags": "NodeJS",
+      "read": false
+    },
+    {
+      "id": 4,
+      "title": "The 10+ Best Node.js Tutorials With Examples",
+      "url": "http://noeticforce.com/best-nodejs-tutorial-with-examples",
+      "tags": "NodeJS",
+      "read": false
+    },
+    {
+      "id": 5,
+      "title": "The Beginner's Guide to Terminal for Node.js Development",
+      "url": "https://blog.risingstack.com/terminal-guide-for-nodejs/",
+      "tags": "NodeJS",
+      "read": false
+    },
+    {
+      "url": "https://www.sitepoint.com/ultimate-angular-cli-reference/",
+      "title": "The Ultimate Angular CLI Reference Guide",
+      "tags": "Angular2, TypeScript",
+      "read": false,
+      "collectionId": 1,
+      "id": 6
+    },
+    {
+      "url": "https://www.sitepoint.com/angular-2-tutorial/",
+      "title": "Angular 2 Tutorial: Create a CRUD App with Angular CLI",
+      "tags": "Angular2, TypeScript",
+      "id": 7,
+      "collectionId": 1,
+      "read": false
+    },
+    {
+      "url": "https://www.sitepoint.com/understanding-component-architecture-angular/",
+      "title": "Understanding Component Architecture: Refactoring an Angular App",
+      "tags": "Angular2, TypeScript",
+      "id": 8,
+      "collectionId": 1,
+      "read": false
+    },
+    {
+      "url": "https://www.sitepoint.com/angular-rxjs-create-api-service-rest-backend/",
+      "title": "Angular and RxJS: Create an API Service to Talk to a REST Backend",
+      "tags": "Angular2, TypeScript",
+      "id": 9,
+      "collectionId": 1,
+      "read": false
+    },
+    {
+      "read": false,
+      "title": "A list of funny and tricky JavaScript Examples",
+      "url": "https://github.com/denysdovhan/wtfjs",
+      "tags": "JavaScript",
+      "id": 11
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "name": "ES6",
+      "articleIds": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "name": "NodeJS",
+      "articleIds": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": 3,
+      "name": "TypeScript",
+      "articleIds": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Angular2",
+      "articleIds": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "articleIds": [
+        11
+      ],
+      "name": "JavaScript",
+      "id": 6
+    }
+  ],
+  "collections": [
+    {
+      "name": "Create a Todo Application using Angular CLI",
+      "articleIds": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "id": 1
+    },
+    {
+      "name": "test collection",
+      "articleIds": [],
+      "id": 2
+    }
+  ]
+}

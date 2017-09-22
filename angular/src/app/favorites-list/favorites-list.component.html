@@ -1,0 +1,17 @@
+<h3>All Favorites</h3>
+<ul class="favorites-list list-group">
+  <li class="list-group-item" *ngFor="let favorite of favorites">
+      <a class="link" href="{{ favorite.url }}" target="_blank">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+        {{ favorite.title }}
+      </a>
+      <p class="tags">
+        Tags: {{ favorite.tags }} 
+        <span class="pull-right">
+          <a href="javascript:void(0);" class="link-marked" *ngIf="favorite.read"><span class="glyphicon glyphicon-check"></span> Already Read</a>
+          <a href="javascript:void(0);" class="link-mark" *ngIf="!favorite.read" (click)="markAsRead(favorite)"><span class="glyphicon glyphicon-eye-open"></span> Mark as Read</a> 
+          <a class="link-delete" href="javascript:void(0);" (click)="deleteFavorite(favorite.id)"><span class="glyphicon glyphicon-warning-sign"></span> Delete Favorite</a> 
+        </span>
+      </p> 
+  </li>
+</ul>
