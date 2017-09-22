@@ -1,6 +1,6 @@
 <h3>Collections</h3>
 <ul class="list-group collections-list">
-  <li class="list-group-item" *ngFor="let collection of collections" [routerLink]="['/collections', collection.id]">
+  <li class="list-group-item" *ngFor="let collection of collections" [routerLink]="['/collections', collection.cId]">
     {{ collection.name }}
   </li>
 </ul>

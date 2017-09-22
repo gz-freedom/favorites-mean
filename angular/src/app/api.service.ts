@@ -19,8 +19,11 @@ export class ApiService {
 
   public getAllFavorites(): Observable<Favorite[]> {
     return this.http.get(API_URL + "/favorites")
-        .map(response => {
-          return response.json();
+        .map(res => {
+          let result = res.json();
+          if(result.success) {
+            return result.data;
+          }
         });
   }
 
@@ -39,8 +42,11 @@ export class ApiService {
   
   public getAllTags(): Observable<Tag[]> {
     return this.http.get(API_URL + "/tags")
-        .map(response => {
-          return response.json();
+        .map(res => {
+          let result = res.json();
+          if(result.success) {
+            return result.data;
+          }
         });
   }
   
@@ -100,9 +106,12 @@ export class ApiService {
   }
 
   public getCollections(): Observable<Collection[]> {
-    return this.http.get(API_URL + "/collections/")
+    return this.http.get(API_URL + "/collections")
       .map(res => {
-        return res.json();
+        let result = res.json();
+        if(result.success) {
+          return result.data;
+        }
       });
   }
 

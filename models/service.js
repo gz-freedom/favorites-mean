@@ -18,3 +18,7 @@ module.exports.getCollections = (db, callback) => {
 module.exports.getTags = (db, callback) => {
     db.collection("tags").find().toArray(callback);
 }
+
+module.exports.getCollectionById = (collectionId, db, callback) => {
+    db.collection("collections").find({ cId: collectionId }).toArray(callback);
+}

@@ -17,6 +17,7 @@ export class CollectionsComponent implements OnInit {
   ngOnInit() {
     this.appService.getCollections()
       .subscribe(collections => {
+        console.log(collections);
         this.collections = collections.filter(collection => collection.articleIds.length !==0);
       });
   }

@@ -9,29 +9,51 @@ service.connect((db) => {
 
 router.get("/", (req, res) => {
     service.getFavorites(database, (err, result) => {
-        // console.dir(result);
-        res.write(JSON.stringify({ success: true, lists:result }, null, 2));
+        res.write(JSON.stringify(result, null, 2));
         res.end();
     });
 });
 
 router.get("/favorites", (req, res) => {
     service.getFavorites(database, (err, result) => {
-        // console.dir(result);
-        res.write(JSON.stringify({ success: true, lists:result }, null, 2));
+        if(err) {
+            res.json({success: false, message: `Failed to load favorites. Error: ${err}`}); 
+        }
+        res.write(JSON.stringify({ success: true, data: result }, null, 2));
         res.end();
     });
 });
 
 router.get("/collections", (req, res) => {
-    service.getCollections(database, (err, result) => {});
+    service.getCollections(database, (err, result) => {
+        if(err) {
+            res.json({success: false, message: `Failed to load collections. Error: ${err}`}); 
+        }
+        res.write(JSON.stringify({ success: true, data: result }, null, 2));
+        res.end();
+    });
 });
 
 router.get("/tags", (req, res) => {
-    service.getTags(database, (err, result) => {});
+    service.getTags(database, (err, result) => {
+        if(err) {
+            res.json({success: false, message: `Failed to load tags. Error: ${err}`}); 
+        }
+        res.write(JSON.stringify({ success: true, data: result }, null, 2));
+        res.end();
+    });
 });
 
-router.get("/collections/:id", () => {});
+router.get("/collections/:id", (req, res) => {
+    let collectionId = +req.params.id;
+    service.getCollectionById(collectionId, database, (err, result) => {
+        if(err) {
+            res.json({success: false, message: `Failed to load tags. Error: ${err}`}); 
+        }
+        res.write(JSON.stringify({ success: true, data: result }, null, 2));
+        res.end();
+    });
+});
 
 router.get("/tags/:id", () => {});
 
