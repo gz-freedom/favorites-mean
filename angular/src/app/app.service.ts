@@ -17,10 +17,10 @@ export class AppService {
     return this.api.getAllFavorites();
   }
   getFavoritesByTagId(tagId: number) {
-    return this.api.getTagById(tagId).concatMap(tag => this.api.getFavoritesByIds(tag.articleIds));
+    return this.api.getFavoritesByTagId(tagId);
   }
-  getFavoritesByCollectionId(collectionId: number) {
-    return this.api.getCollectionById(collectionId).concatMap(collection => this.api.getFavoritesByIds(collection.articleIds));
+  getFavoritesByCollectionId(collectionId: number): Observable<Favorite[]> {
+    return this.api.getFavoritesByCollectionId(collectionId);
   }
 
   getAllTags(): Observable<Tag[]> {

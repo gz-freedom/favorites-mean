@@ -1,7 +1,7 @@
 <h3>Tags</h3>
 <div class="tags-wrap">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let tag of tags" [routerLink]="['/tags', tag.id]">
+    <li class="list-group-item" *ngFor="let tag of tags" [routerLink]="['/tags', tag.tagId]">
       <span class="badge">{{ tag.articleIds.length }}</span>
       <h4>{{ tag.name }}</h4>
     </li>
