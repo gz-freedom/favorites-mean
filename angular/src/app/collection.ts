@@ -1,5 +1,5 @@
 export class Collection {
-    id: number;
+    cId: number;
     name: string;
     articleIds: number[];
     

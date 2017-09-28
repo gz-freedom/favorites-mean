@@ -61,7 +61,7 @@ export class AddFavoriteComponent implements OnInit {
 
         // update collection if select any
         if(this.addForm.value.favCollectionId) {
-          let selectedCollection = this.collections.filter(collection => collection.id === +this.addForm.value.favCollectionId).pop();
+          let selectedCollection = this.collections.filter(collection => collection.cId === +this.addForm.value.favCollectionId).pop();
           selectedCollection.articleIds.push(newFav.id);
           this.appService.updateCollection(selectedCollection).subscribe();
         }
@@ -94,7 +94,9 @@ export class AddFavoriteComponent implements OnInit {
   }
 
   addCollection() {
+    let lastCollectionId = this.collections[this.collections.length - 1].cId;
     this.newCollection.articleIds = [];
+    this.newCollection.cId = lastCollectionId + 1;
     this.appService.addCollection(this.newCollection)
       .subscribe(newCollection => {
         this.collections.push(newCollection);

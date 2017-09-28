@@ -33,5 +33,9 @@ module.exports = {
             let articleIds = tag.articleIds;
             _getFavoritesByIds(articleIds, db, callback);
         })
+    },
+    /* Add Collection */
+    addCollection: (collection, db, callback) => {
+        db.collection("collections").insertOne(collection, callback)
     }
 }

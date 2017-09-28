@@ -65,8 +65,14 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
         });
     });
     
-    router.post("/", (req, res) => {
-        res.send("POST");
+    router.post("/add-collection/", (req, res) => {
+        service.addCollection(req.body, db, (err, result) => {
+            if(err) {
+                res.json({success: false, message: `Failed to load tags. Error: ${err}`}); 
+            }
+            res.write(JSON.stringify({ success: true, data: result["ops"][0] }, null, 2));
+            res.end();
+        })
     });
     
     router.delete("/:id", (req, res, next) => {

@@ -113,8 +113,13 @@ export class ApiService {
   }
 
   public addCollection(collection: Collection): Observable<Collection> {
-    return this.http.post(API_URL + "/collections/", collection)
-      .map(collection => collection.json());
+    return this.http.post(API_URL + "/add-collection/", collection)
+      .map(res => {
+        let result = res.json();
+        if(result.success) {
+          return result.data;
+        }
+      });
   }
   
   public getCollectionById(id: number): Observable<Collection> {
@@ -138,7 +143,7 @@ export class ApiService {
   }
 
   public updateCollection(collection: Collection):Observable<Collection> {
-    return this.http.put(API_URL + "/collections/" + collection.id, collection)
+    return this.http.put(API_URL + "/collections/" + collection.cId, collection)
       .map(collection => {
         return collection.json();
       });
