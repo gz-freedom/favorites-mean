@@ -1,5 +1,5 @@
 export class Favorite {
-    id: number;
+    articleId: number;
     title: string;
     url: string;
     tags: string;

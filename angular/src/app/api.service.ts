@@ -28,9 +28,12 @@ export class ApiService {
   }
   
   public addFavorite(favorite: Favorite): Observable<Favorite> {
-    return this.http.post(API_URL + "/favorites", favorite)
-          .map(response => {
-            return new Favorite(response.json());
+    return this.http.post(API_URL + "/add-favorite", favorite)
+          .map(res => {
+            let result = res.json();
+            if(result.success) {
+              return result.data;
+            }
           });
   }
   
@@ -45,12 +48,12 @@ export class ApiService {
   }
   
   public addTag(tag: Tag): Observable<Tag> {
-    return this.http.post(API_URL + "/tags", tag)
+    return this.http.post(API_URL + "/add-tag", tag)
         .map(response => response.json());
   }
 
   public updateTag(tag: Tag): Observable<Tag> {
-    return this.http.put(API_URL + "/tags/" + tag.id, tag)
+    return this.http.put(API_URL + "/update-tag", tag)
             .map(response => {
               return response.json();
             });
@@ -88,7 +91,7 @@ export class ApiService {
   }
 
   public updateFavorite(fav: Favorite) {
-    return this.http.put(API_URL + "/favorites/" + fav.id, fav)
+    return this.http.put(API_URL + "/favorites/" + fav.articleId, fav)
       .map(res => res.json());
   }
 
@@ -142,10 +145,13 @@ export class ApiService {
       });
   }
 
-  public updateCollection(collection: Collection):Observable<Collection> {
-    return this.http.put(API_URL + "/collections/" + collection.cId, collection)
-      .map(collection => {
-        return collection.json();
+  public updateCollection(collection: Collection): Observable<Collection> {
+    return this.http.put(API_URL + "/update-collection", collection)
+      .map(res => {
+        let result = res.json();
+        if(result.success) {
+          return result.data;
+        }
       });
   }
 

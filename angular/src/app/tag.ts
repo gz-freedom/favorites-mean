@@ -1,5 +1,5 @@
 export class Tag {
-    id: number;
+    tagId: number;
     name: string;
     articleIds: number[];
 

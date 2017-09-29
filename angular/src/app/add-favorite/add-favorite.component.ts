@@ -48,7 +48,9 @@ export class AddFavoriteComponent implements OnInit {
   }
 
   addFavorite() {
+    let lastFavorite = this.favorites[this.favorites.length - 1];
     let newFavorite = new Favorite({
+      articleId: lastFavorite.articleId + 1,
       read: false,
       title: this.addForm.value.favTitle,
       url: this.addForm.value.favUrl,
@@ -62,7 +64,7 @@ export class AddFavoriteComponent implements OnInit {
         // update collection if select any
         if(this.addForm.value.favCollectionId) {
           let selectedCollection = this.collections.filter(collection => collection.cId === +this.addForm.value.favCollectionId).pop();
-          selectedCollection.articleIds.push(newFav.id);
+          selectedCollection.articleIds.push(newFav.articleId);
           this.appService.updateCollection(selectedCollection).subscribe();
         }
 
@@ -73,7 +75,7 @@ export class AddFavoriteComponent implements OnInit {
             let thisTag = this.allTags[i];
             if(thisTag.name.toLowerCase() === tagName.trim().toLowerCase()) {
               // exists, then update tag
-              thisTag.articleIds.push(newFav.id);
+              thisTag.articleIds.push(newFav.articleId);
               this.appService.updateTag(thisTag).subscribe(updatedTag => {
                 thisTag = updatedTag;
               });
@@ -82,9 +84,11 @@ export class AddFavoriteComponent implements OnInit {
             }
           }
           if(!isExist) {
+            let lastTag = this.allTags[this.allTags.length - 1];
             let tag: Tag = new Tag({
-              articleIds: [newFav.id],
-              name: tagName.trim()
+              articleIds: [newFav.articleId],
+              name: tagName.trim(),
+              tagId: lastTag.tagId + 1
             });
             this.appService.addTag(tag).subscribe();
           }
