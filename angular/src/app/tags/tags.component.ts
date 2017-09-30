@@ -4,9 +4,9 @@ import { AppService } from "../app.service";
 import { Tag } from "../tag";
 
 @Component({
-  selector: 'app-tags-list',
-  templateUrl: './tags-list.component.html',
-  styleUrls: ['./tags-list.component.scss'],
+  selector: 'app-tags',
+  templateUrl: './tags.component.html',
+  styleUrls: ['./tags.component.scss'],
   providers: [AppService]
 })
 export class TagsListComponent implements OnInit {

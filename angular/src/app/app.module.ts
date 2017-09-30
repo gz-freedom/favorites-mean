@@ -7,12 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ApiService } from './api.service';
 import { ArrayToString } from './app.pipe';
-import { TagsListComponent } from './tags-list/tags-list.component';
-import { TagDetailComponent } from './tag-detail/tag-detail.component';
+import { TagsListComponent } from './tags/tags.component';
+import { TagDetailComponent } from './tags/tag-detail.component';
 import { AddFavoriteComponent } from './add-favorite/add-favorite.component';
 import { FavoritesListComponent } from './favorites-list/favorites-list.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { CollectionDetailComponent } from "./collections/collection-detail.component";
+import { FavoritesComponent } from './favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CollectionDetailComponent } from "./collections/collection-detail.compo
     AddFavoriteComponent,
     FavoritesListComponent,
     CollectionsComponent,
-    CollectionDetailComponent
+    CollectionDetailComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,

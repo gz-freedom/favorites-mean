@@ -9,7 +9,7 @@ import "rxjs/add/operator/switchMap";
 @Component({
   selector: 'app-tag-detail',
   templateUrl: './tag-detail.component.html',
-  styleUrls: ['./tag-detail.component.scss'],
+  styleUrls: ['./tags.component.scss'],
   providers: [AppService]
 })
 export class TagDetailComponent implements OnInit {
@@ -42,9 +42,5 @@ export class TagDetailComponent implements OnInit {
   deleteFavorite(id: number) {
     // todo
     this.appService.deleteFavoriteById(id).subscribe();
-  }
-  markAsRead(favorite: Favorite) {
-    favorite.read = !favorite.read;
-    this.appService.updateFavorite(favorite).subscribe();
   }
 }

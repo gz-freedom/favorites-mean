@@ -1,6 +1,2 @@
 <h3>{{ collection.name }}</h3>
-<ul class="list">
-    <li class="list-item" *ngFor="let fav of favorites">
-        <a href="{{ fav.url }}" target="_blank">{{ fav.title }}</a>
-    </li>
-</ul>
+<app-favorites-list [favorites]="favorites"></app-favorites-list>

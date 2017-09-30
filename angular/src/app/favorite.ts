@@ -3,7 +3,6 @@ export class Favorite {
     title: string;
     url: string;
     tags: string;
-    read: boolean;
     collectionId?: number;
 
     constructor(values: Object = {}) {

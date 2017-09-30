@@ -51,7 +51,6 @@ export class AddFavoriteComponent implements OnInit {
     let lastFavorite = this.favorites[this.favorites.length - 1];
     let newFavorite = new Favorite({
       articleId: lastFavorite.articleId + 1,
-      read: false,
       title: this.addForm.value.favTitle,
       url: this.addForm.value.favUrl,
       tags: this.addForm.value.favTags,
