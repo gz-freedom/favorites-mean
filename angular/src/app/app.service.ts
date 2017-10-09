@@ -43,16 +43,12 @@ export class AppService {
     return this.api.deleteFavoriteById(id);
   }
 
-  updateFavorite(fav: Favorite) {
-    return this.api.updateFavorite(fav);
-  }
-
   getTagById(id: number): Observable<Tag> {
     return this.api.getTagById(id);
   }
 
   getCollections(): Observable<Collection[]> {
-    return this.api.getCollections();
+    return this.api.getAllCollections();
   }
   addCollection(collection: Collection): Observable<Collection> {
     return this.api.addCollection(collection);

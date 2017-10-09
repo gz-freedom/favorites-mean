@@ -12,47 +12,40 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
         res.write(JSON.stringify({ success: true, data: result }, null, 2));
         res.end();
     }
-
-    router.get("/", (req, res) => {
-        service.getFavorites(db, (err, result) => {
-            res.write(JSON.stringify(result, null, 2));
-            res.end();
-        });
-    });
     
     router.get("/favorites", (req, res) => {
         service.getFavorites(db, (err, result) => {
             resultHandler(res, result, err);
         });
     });
-    
     router.get("/collections", (req, res) => {
         service.getCollections(db, (err, result) => {
             resultHandler(res, result, err);
         });
     });
-    
     router.get("/tags", (req, res) => {
         service.getTags(db, (err, result) => {
             resultHandler(res, result, err);
         });
     });
-    
     router.get("/collections/:id", (req, res) => {
         let collectionId = +req.params.id;
-        service.getFavoritesByCollectionId(collectionId, db, (err, result) => {
-            resultHandler(res, result, err);
+        service.getCollectionById(collectionId, db, (err, result) => {
+            service.getFavoritesByIds(result.articleIds, db, (err, result) => {
+                resultHandler(res, result, err);
+            });
         });
     });
-    
     router.get("/tags/:id", (req, res) => {
         let tagId = +req.params.id;
-        service.getFavoritesByTagId(tagId, db, (err, result) => {
-            resultHandler(res, result, err);
+        service.getTagById(tagId, db, (err, result) => {
+            service.getFavoritesByIds(result.articleIds, db, (err, result) => {
+                resultHandler(res, result, err);
+            });
         });
     });
     
-    router.post("/add-collection/", (req, res) => {
+    router.post("/add-collection", (req, res) => {
         service.addCollection(req.body, db, (err, result) => {
             resultHandler(res, result["ops"][0], err);
         })
@@ -62,7 +55,7 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
             resultHandler(res, result["ops"][0], err);
         })
     });
-    router.post("/add-tag/", (req, res) => {
+    router.post("/add-tag", (req, res) => {
         service.addTag(req.body, db, (err, result) => {
             resultHandler(res, result["ops"][0], err);
         });
@@ -79,8 +72,17 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
         });
     })
     
-    router.delete("/:id", (req, res, next) => {
-        res.send("DELETE");
+    router.delete("/tags/:id", (req, res) => {
+        let tagId = +req.params.id;
+        service.deleteTag(tagId, db, (err, result) => {
+            resultHandler(res, result, err);
+        });
+    })
+    router.delete("/favorites/:id", (req, res) => {
+        let articleId = +req.params.id;
+        service.deleteFavorite(articleId, db, (err, result) => {
+            resultHandler(res, result, err);
+        });
     });
     
 });

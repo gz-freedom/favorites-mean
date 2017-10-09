@@ -9,9 +9,6 @@ const _getTagById = (tagId, db, callback) => {
 }
 
 module.exports = {
-    getCollectionById: _getCollectionById,
-    getTagById: _getTagById,
-
     getFavorites: (db, callback) => {
         db.collection("favorites").find({}, { _id: 0 }).toArray(callback);
     },
@@ -21,18 +18,14 @@ module.exports = {
     getTags: (db, callback) => {
         db.collection("tags").find({}, { _id: 0 }).toArray(callback);
     },
-    
-    getFavoritesByCollectionId: (collectionId, db, callback) => {
-        _getCollectionById(collectionId, db, (err, collection) => {
-            let articleIds = collection.articleIds;
-            _getFavoritesByIds(articleIds, db, callback);
-        });
+    getTagById: (tagId, db, callback) => {
+        db.collection("tags").find({ tagId: tagId }).next(callback);
     },
-    getFavoritesByTagId: (tagId, db, callback) => {
-        _getTagById(tagId, db, (err, tag) => {
-            let articleIds = tag.articleIds;
-            _getFavoritesByIds(articleIds, db, callback);
-        })
+    getCollectionById: (collectionId, db, callback) => {
+        db.collection("collections").find({ cId: collectionId }).next(callback);
+    },
+    getFavoritesByIds: (idsArray, db, callback) => {
+        db.collection("favorites").find({ articleId: { $in: idsArray } }).toArray(callback);
     },
 
     /* Add */
@@ -52,5 +45,13 @@ module.exports = {
     },
     updateTag: (tag, db, callback) => {
         db.collection("tags").updateOne({ tagId: tag.tagId }, { $set: tag });
+    },
+
+    /* Delete */
+    deleteFavorite: (favoriteId, db, callback) => {
+        db.collection("favorites").deleteOne({ articleId: favoriteId });
+    },
+    deleteTag: (tagId, db, callback) => {
+        db.collection("tags").deleteOne({ tagId: tagId });
     }
 }

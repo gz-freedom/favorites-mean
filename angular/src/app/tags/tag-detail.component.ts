@@ -38,9 +38,4 @@ export class TagDetailComponent implements OnInit {
       this.titleService.setTitle("Tag: " + tag.name);
     });
   }
-
-  deleteFavorite(id: number) {
-    // todo
-    this.appService.deleteFavoriteById(id).subscribe();
-  }
 }
