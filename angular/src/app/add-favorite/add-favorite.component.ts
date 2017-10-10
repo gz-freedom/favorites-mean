@@ -53,8 +53,7 @@ export class AddFavoriteComponent implements OnInit {
       articleId: lastFavorite.articleId + 1,
       title: this.addForm.value.favTitle,
       url: this.addForm.value.favUrl,
-      tags: this.addForm.value.favTags,
-      collectionId: this.addForm.value.favCollectionId
+      tags: this.addForm.value.favTags
     });
     this.appService.addFavorite(newFavorite)
       .subscribe(newFav => {

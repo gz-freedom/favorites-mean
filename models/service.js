@@ -21,8 +21,14 @@ module.exports = {
     getTagById: (tagId, db, callback) => {
         db.collection("tags").find({ tagId: tagId }).next(callback);
     },
+    getTagsByFavId: (favId, db, callback) => {
+        db.collection("tags").find({ articleIds: { $all: [favId] } }).toArray(callback);
+    },
     getCollectionById: (collectionId, db, callback) => {
         db.collection("collections").find({ cId: collectionId }).next(callback);
+    },
+    getCollectionByFavId: (favId, db, callback) => {
+        db.collection("collections").find({ articleIds: { $all: [favId] } }).next(callback);
     },
     getFavoritesByIds: (idsArray, db, callback) => {
         db.collection("favorites").find({ articleId: { $in: idsArray } }).toArray(callback);

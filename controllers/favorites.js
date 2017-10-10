@@ -36,6 +36,18 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
             });
         });
     });
+    router.get("/collection-by-favid/:id", (req, res) => {
+        let favId = +req.params.id;
+        service.getCollectionByFavId(favId, db, (err, result) => {
+            resultHandler(res, result, err);
+        })
+    });
+    router.get("/tags-by-favid/:id", (req, res) => {
+        let favId = +req.params.id;
+        service.getTagsByFavId(favId, db, (err, result) => {
+            resultHandler(res, result, err);
+        })
+    })
     router.get("/tags/:id", (req, res) => {
         let tagId = +req.params.id;
         service.getTagById(tagId, db, (err, result) => {

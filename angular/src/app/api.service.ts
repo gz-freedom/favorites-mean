@@ -6,6 +6,7 @@ import { Tag } from "./tag";
 import { Collection } from "./collection";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/concat";
 import "rxjs/add/operator/concatMap";
 
 const API_URL = environment.apiUrl;
@@ -121,33 +122,29 @@ export class ApiService {
   }
 
   public deleteFavoriteById(id: number) {
-    this.http.get(API_URL + "/favorites/" + id).subscribe(fav => {
-      let collectionId = fav.json().data.collectionId;
-      if(collectionId !== 0) {
-        // update collection
-        this.getCollectionById(fav.json().data.collectionId).subscribe(collection => {
-          collection.articleIds.splice(collection.articleIds.indexOf(id), 1);
-          this.updateCollection(collection).subscribe();
-        });
-      }
+    let updateCollectionStream = this.http.get(API_URL + "/collection-by-favid/" + id).concatMap(res => {
+      let collection = res.json().data;
+      return this.updateCollection(collection);
     });
 
-    // update tag
-    this.http.get(API_URL + "/tags").subscribe(tags => {
-      tags.json().data.forEach(tag => {
-        if(tag.articleIds.includes(id)) {
-          tag.articleIds.splice(tag.articleIds.indexOf(id), 1);
-          if(tag.articleIds.length === 0) {
-            // delete tag
-            return this.http.delete(API_URL + "/tags/" + tag.id).map(response => null).subscribe();
-          } else {
-            // update tag
-            return this.http.put(API_URL + "/update-tag", tag).map(response => response.json()).subscribe();
-          }
+    let updateTagStream = this.http.get(API_URL + "/tags-by-favid/" + id).concat(res => {
+      let tags = res.json().data, tempStream = null;
+      console.dir(tags);
+      tags.forEach(tag => {
+        tag.articleIds.splice(tag.articleIds.indexOf(id), 1);
+        if(tag.articleIds.length === 0) {
+          // delete tag
+          tempStream.merge(this.http.delete(API_URL + "/tags/" + tag.id));
+        } else {
+          // update tag
+          tempStream.merge(this.http.put(API_URL + "/update-tag", tag));
         }
       });
+      return tempStream;
     });
 
-    return this.http.delete(API_URL + "/favorites/" + id).map(res => null);
+    console.dir(updateTagStream);
+
+    return this.http.delete(API_URL + "/favorites/" + id).concat(updateCollectionStream, updateTagStream);
   }
 }
