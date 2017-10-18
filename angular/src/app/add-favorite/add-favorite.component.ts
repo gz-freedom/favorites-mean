@@ -53,44 +53,12 @@ export class AddFavoriteComponent implements OnInit {
       articleId: lastFavorite.articleId + 1,
       title: this.addForm.value.favTitle,
       url: this.addForm.value.favUrl,
-      tags: this.addForm.value.favTags
+      tags: this.addForm.value.favTags,
+      collectionId: this.addForm.value.favCollectionId
     });
     this.appService.addFavorite(newFavorite)
       .subscribe(newFav => {
         this.favorites.concat(newFav);
-
-        // update collection if select any
-        if(this.addForm.value.favCollectionId) {
-          let selectedCollection = this.collections.filter(collection => collection.cId === +this.addForm.value.favCollectionId).pop();
-          selectedCollection.articleIds.push(newFav.articleId);
-          this.appService.updateCollection(selectedCollection).subscribe();
-        }
-
-        //add tags or update tag
-        newFav.tags.split(",").forEach(tagName => {
-          let isExist = false;
-          for(let i = 0, len = this.allTags.length; i < len; i++) {
-            let thisTag = this.allTags[i];
-            if(thisTag.name.toLowerCase() === tagName.trim().toLowerCase()) {
-              // exists, then update tag
-              thisTag.articleIds.push(newFav.articleId);
-              this.appService.updateTag(thisTag).subscribe(updatedTag => {
-                thisTag = updatedTag;
-              });
-              isExist = true;
-              break;
-            }
-          }
-          if(!isExist) {
-            let lastTag = this.allTags[this.allTags.length - 1];
-            let tag: Tag = new Tag({
-              articleIds: [newFav.articleId],
-              name: tagName.trim(),
-              tagId: lastTag.tagId + 1
-            });
-            this.appService.addTag(tag).subscribe();
-          }
-        });
         this.addForm.reset();
       });
   }

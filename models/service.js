@@ -47,7 +47,7 @@ module.exports = {
 
     /* Update */
     updateCollection: (collection, db, callback) => {
-        db.collection("collections").updateOne({ cId: collection.cId }, { $set: collection });
+        db.collection("collections").updateOne({ cId: collection.cId }, { $set: { articleIds: collection.articleIds } });
     },
     updateTag: (tag, db, callback) => {
         db.collection("tags").updateOne({ tagId: tag.tagId }, { $set: tag });

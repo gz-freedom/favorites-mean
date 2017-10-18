@@ -35,10 +35,6 @@ export class AppService {
     return this.api.addTag(tag);
   }
 
-  updateTag(tag: Tag): Observable<Tag> {
-    return this.api.updateTag(tag);
-  }
-
   deleteFavoriteById(id: number) {
     return this.api.deleteFavoriteById(id);
   }
@@ -55,8 +51,5 @@ export class AppService {
   }
   getCollectionById(collectionId: number): Observable<Collection> {
     return this.api.getCollectionById(collectionId);
-  }
-  updateCollection(collection: Collection): Observable<Collection> {
-    return this.api.updateCollection(collection);
   }
 }

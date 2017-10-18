@@ -4,7 +4,8 @@ import { Http } from "@angular/http";
 import { Favorite } from "./favorite";
 import { Tag } from "./tag";
 import { Collection } from "./collection";
-import { Observable } from "rxjs/Observable";
+//import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/concat";
 import "rxjs/add/operator/concatMap";
@@ -59,7 +60,7 @@ export class ApiService {
       .map(res => {
         let result = res.json();
         if(result.success) {
-          return result.data[0];
+          return result.data;
         }
       });
   }
@@ -83,13 +84,45 @@ export class ApiService {
   }
   
   public addFavorite(favorite: Favorite): Observable<Favorite> {
-    return this.http.post(API_URL + "/add-favorite", favorite)
-          .map(res => {
-            let result = res.json();
-            if(result.success) {
-              return result.data;
+    return this.http.post(API_URL + "/add-favorite", favorite).switchMap(res => {
+      let addedFav = res.json().data;
+      let updateCollection$ = Observable.of(null), updateTags$ = Observable.of(null), addOrUpdateTag$ = Observable.of(null);
+      if(addedFav.collectionId) {
+        updateCollection$ = this.getCollectionById(favorite.collectionId).concatMap((collection) => {
+          collection.articleIds.push(addedFav.articleId);
+          return this.updateCollection(collection);
+        });
+      }
+
+      addedFav.tags.split(",").forEach(tagName => {
+        let isExist = false;
+        updateTags$ = this.getAllTags().concatMap(allTags => {
+          let allStream$ = null;
+          for(let i = 0, len = allTags.length; i < len; i++) {
+            let thisTag = allTags[i];
+            if(thisTag.name.toLowerCase() === tagName.trim().toLowerCase()) {
+              // exists, then update tag
+              thisTag.articleIds.push(addedFav.articleId);
+              allStream$ = allStream$ ? allStream$.merge(this.updateTag(thisTag)) : Observable.merge(this.updateTag(thisTag));
+              isExist = true;
+              break;
             }
-          });
+          }
+          if(!isExist) {
+            let lastTag = allTags[allTags.length - 1];
+            let tag: Tag = new Tag({
+              articleIds: [addedFav.articleId],
+              name: tagName.trim(),
+              tagId: lastTag.tagId + 1
+            });
+            allStream$ = allStream$ ? allStream$.merge(this.addTag(tag)) : Observable.merge(this.addTag(tag));
+          }
+          return allStream$;
+        });
+      });
+
+      return updateCollection$.merge(updateTags$).map(() => addedFav);
+    });
   }
   public addTag(tag: Tag): Observable<Tag> {
     return this.http.post(API_URL + "/add-tag", tag)
@@ -105,20 +138,11 @@ export class ApiService {
       });
   }
 
-  public updateTag(tag: Tag): Observable<Tag> {
-    return this.http.put(API_URL + "/update-tag", tag)
-            .map(response => {
-              return response.json();
-            });
+  public updateTag(tag: Tag) {
+    return this.http.put(API_URL + "/update-tag", tag);
   }
-  public updateCollection(collection: Collection): Observable<Collection> {
+  public updateCollection(collection: Collection) {
     return this.http.put(API_URL + "/update-collection", collection)
-      .map(res => {
-        let result = res.json();
-        if(result.success) {
-          return result.data;
-        }
-      });
   }
 
   public deleteFavoriteById(id: number) {
@@ -129,7 +153,6 @@ export class ApiService {
 
     let updateTagStream = this.http.get(API_URL + "/tags-by-favid/" + id).concat(res => {
       let tags = res.json().data, tempStream = null;
-      console.dir(tags);
       tags.forEach(tag => {
         tag.articleIds.splice(tag.articleIds.indexOf(id), 1);
         if(tag.articleIds.length === 0) {
@@ -142,8 +165,6 @@ export class ApiService {
       });
       return tempStream;
     });
-
-    console.dir(updateTagStream);
 
     return this.http.delete(API_URL + "/favorites/" + id).concat(updateCollectionStream, updateTagStream);
   }

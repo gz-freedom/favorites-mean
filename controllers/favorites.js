@@ -31,9 +31,7 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
     router.get("/collections/:id", (req, res) => {
         let collectionId = +req.params.id;
         service.getCollectionById(collectionId, db, (err, result) => {
-            service.getFavoritesByIds(result.articleIds, db, (err, result) => {
-                resultHandler(res, result, err);
-            });
+            resultHandler(res, result, err);
         });
     });
     router.get("/collection-by-favid/:id", (req, res) => {
@@ -79,7 +77,9 @@ mongoClient.connect(config.databaseUrl, (err, db) => {
         });
     })
     router.put("/update-tag", (req, res) => {
+        console.log(req.body);
         service.updateTag(req.body, db, (err, result) => {
+            console.log(result);
             resultHandler(res, result, err);
         });
     })
